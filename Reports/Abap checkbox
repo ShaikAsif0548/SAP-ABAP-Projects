@@ -1,0 +1,84 @@
+*&---------------------------------------------------------------------*
+*& Report  ZPROGRAMCHECKB
+*&
+*&---------------------------------------------------------------------*
+*&
+*&
+*&---------------------------------------------------------------------*
+
+REPORT ZPROGRAMCHECKB.
+DATA:v_str1 type string,
+      v_str2 type string,
+      v_result type i,
+      v_msg type string,
+      v_temp TYPE string,
+      v_len TYPE i,
+      v_pos TYPE i,
+      v_pac type p LENGTH 3 DECIMALS 2.
+SELECTION-SCREEN BEGIN OF block bk1 with frame title t1.  "creating a rectangular block with the title "
+SELECTION-SCREEN BEGIN OF line .
+SELECTION-SCREEN COMMENT 8(20) lb1.        " commenting a sentence in aline "
+PARAMETERS:p_num1 type i.                  "parameters is used to get input from the user"
+SELECTION-SCREEN END OF LINE.
+SELECTION-SCREEN BEGIN OF line .
+SELECTION-SCREEN COMMENT 8(20) lb2.
+PARAMETERS:p_num2 type i.
+SELECTION-SCREEN END OF LINE.
+SELECTION-SCREEN END OF block bk1.
+
+SELECTION-SCREEN BEGIN OF block bk2 WITH FRAME title t2.        "2nd rcctangular block is created with the title name"
+parameters:p_c1 AS CHECKBOX USER-COMMAND FC1,   "AS CHECKBOX is used to create check box "
+           p_c2 AS CHECKBOX USER-COMMAND  FC2,
+           p_c3 AS CHECKBOX USER-COMMAND  FC3,
+           p_c4 AS CHECKBOx USER-COMMAND  FC4,
+           p_c5 AS CHECKBOX USER-COMMAND  FC5.
+
+SELECTION-SCREEN END OF block bk2.
+
+INITIALIZATION.
+t1 = 'input vaues'.
+t2 = 'choose radio button'.
+lb1 = 'enter first number'.
+lb2 = 'enter swcond number'.
+
+"START-OF-SELECTION."   "start-of-selection keyword is used when nested if condition is used under."
+at SELECTION-SCREEN.    "at selection screen keyword is used while case keyword is used under"
+case sy-ucomm.   " sy-ucomm gievs direct output screen without executing"
+WHEN 'FC1'.
+    v_result = p_num1 + p_num2.
+    v_str1 = 'Addition of two numbers is'.
+    v_str2 = v_result.
+    CONCATENATE v_str1 v_str2 INTO v_msg SEPARATED BY space.
+    MESSAGE v_msg type 'I'.
+
+ WHEN 'FC2'.
+    v_result = p_num1 - p_num2.
+ IF v_result ge 0.
+    v_str1 = 'substraction of two numbers is'.
+    v_str2 = v_result.
+    CONCATENATE v_str1 v_str2 INTO v_msg SEPARATED BY space.
+    MESSAGE v_msg type 'I'.
+ ELSE.
+    v_str1 = 'substraction of two numbers is -'.
+    v_str2 = v_result.
+    CONCATENATE v_str1 v_str2 INTO v_temp SEPARATED BY space.
+    v_len = strlen( v_temp ).
+    v_pos = v_len - 1.
+    v_msg = v_temp+0(v_pos).
+    MESSAGE v_msg TYPE 'I'.
+ ENDIF.
+ WHEN 'FC3'.
+    v_result = p_num1 * p_num2.
+    v_str1 = 'multiplication of two numbers is'.
+    v_str2 = v_result.
+    CONCATENATE v_str1 v_str2 INTO v_msg SEPARATED BY space.
+    MESSAGE v_msg type 'I'.
+WHEN 'FC4'.
+    v_pac = p_num1 / p_num2.
+    v_str1 = 'divsion of two numbers is'.
+    v_str2 = v_pac.
+    CONCATENATE v_str1 v_str2 INTO v_msg SEPARATED BY space.
+    MESSAGE v_msg type 'I'.
+WHEN 'FC5'.
+       MESSAGE 'none radio button is selected' TYPE 'I'.
+ENDCASE.
