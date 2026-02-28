@@ -296,7 +296,6 @@ clear : gs_fcat1.
   IF SY-SUBRC <> 0.
 * Implement suitable error handling here
   ENDIF.
-
 ENDFORM.                    " DISPLAY_EKET
 
 
@@ -330,7 +329,4 @@ CALL FUNCTION 'REUSE_ALV_COMMENTARY_WRITE'
 *   I_END_OF_LIST_GRID       =
 *   I_ALV_FORM               =
           .
-
-
-
 ENDFORM.
